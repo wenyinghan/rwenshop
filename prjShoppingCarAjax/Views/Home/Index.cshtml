@@ -1,0 +1,53 @@
+﻿@model IEnumerable<prjShoppingCarAjax.Models.tProduct>
+
+@{
+    ViewBag.Title = "產品列表";
+
+
+}
+
+<div class="row" id="rowShow">
+    @foreach (var item in Model)
+    {
+        <div class="col-lg-4">
+            <div class="thumbnail">
+                <img src="~/images/@item.fImg" style="width:70%" id="@item.fPId">
+                <div class="caption">
+
+                    @if (Session["Member"] != null)
+                    {
+
+                        <h2>@item.fName</h2>
+                        <p>種類：@item.fKind</p>
+                        <p>單價：@item.fPrice</p>
+                        <p>庫存：@item.stock</p>
+                        <p>銷量：@item.fSales</p>
+                        <p><div class="btn btn-primary" id="btnAddCar">加入購物車</div></p>
+                    }
+                    else if (Session["Admin"] != null)
+                    {
+                        <p>上傳產品照片：<input type="file" name="fImg" id="fImg" accept="image/gif, image/jpeg, image/png" /></p>
+                        <p id="fPId" name="@item.fPId">編號：@item.fPId</p>
+                        <p>種類：@item.fKind</p>
+                        <h2><input type="text" value="@item.fName" id="fName" name="fPrice"></h2>
+                        <p>單價：<input type="text" value="@item.fPrice" id="fPrice" name="fPrice"></p>
+                        <p>庫存：<input type="text" value="@item.stock" id="stock" name="stock"></p>
+                        <p>銷量：@item.fSales</p>
+                        <p><div class="btn btn-primary btnEditProduct">修改產品</div></p>
+                        <p><div class="btn btn-primary btnDeleteProduct">刪除產品</div></p>
+                    }
+                    else
+                    {
+                        <h2>@item.fName</h2>
+
+                        <p>種類：@item.fKind</p>
+                        <p>單價：@item.fPrice</p>
+                        <p>庫存：@item.stock</p>
+                        <p>銷量：@item.fSales</p>
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
