@@ -1,10 +1,87 @@
 ﻿$(function () {
+    if ($('#shoppingcartable tr').length > 1) {
+        $('#OrderShoppingCar').attr('disabled', false);
+    } else {
+        $('#OrderShoppingCar').attr('disabled', true);
+    }
+    $("#ShoppingCar").hover(function () {
+        $(this).css("background-color", "wheat");
+        LoadShoppingCar();
+        $('#TempCar').show();
+    }, function () {
+        $("#ShoppingCar").siblings('li').hover(function () {
+            $('#TempCar').hide();
+            $("#ShoppingCar").css("background-color", "transparent");
+        });
+        $("#TempCar").hover(function () {
+            $('#TempCar').show();
+        }, function () {
+            $('#TempCar').hide();
+            $("#ShoppingCar").css("background-color", "transparent");
+        });
+
+    });
+    //從頁面改變購物車數量
+    function ChageShoppingCarfQty() {
+        $(".ChageShoppingCarfQty").change(function () {
+            var thisItem = $(this).parent().parent('tr');
+            var fUserId = $('#Member_head').attr("name");
+            var fName = $(this).parent().siblings('#fName').attr("name");
+            var fPrice = $(this).parent().siblings('#fPrice').attr("name");
+            var newfQty = $(this).val();
+            var oldfQty = $(this).parent('#fQty').attr("name");
+            var fPId = $(this).parent().siblings('#fPId').attr("name");
+            var data = "?fUserId=" + fUserId + "&fName=" + fName + "&fPrice=" + fPrice + "&newfQty=" + newfQty + "&oldfQty=" + oldfQty + "&fPId=" + fPId;
+            $.ajax({
+                url: apiurl + "PutShoppingCar" + encodeURI(data),
+                type: 'PUT',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result != 0) {
+                        LoadShoppingCarbyView();
+                    } else {
+                        alert("修改失敗");
+                    }
+                }
+            });
+        });
+
+    };
+
+
+    ChageShoppingCarfQty();
+    //從頂部改變購物車數量
+    function TopChageShoppingCarfQty() {
+        $(".TopChageShoppingCarfQty").change(function () {
+            var fUserId = $('#Member_head').attr("name");
+            var fName = $(this).parent().siblings('#fName').attr("name");
+            var fPrice = $(this).parent().siblings('#fPrice').attr("name");
+            var newfQty = $(this).val();
+            var oldfQty = $(this).parent('#fQty').attr("name");
+            var fPId = $(this).parent().parent('#fPId').attr("name");
+            var data = "?fUserId=" + fUserId + "&fName=" + fName + "&fPrice=" + fPrice + "&newfQty=" + newfQty + "&oldfQty=" + oldfQty + "&fPId=" + fPId;
+            $.ajax({
+                url: apiurl + "PutShoppingCar" + encodeURI(data),
+                type: 'PUT',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result != 0) {
+                        LoadShoppingCar();
+                        LoadShoppingCarbyView();
+                    } else {
+                        alert("修改失敗");
+                    }
+                }
+            });
+        });
+
+    };
+
     var apiurl = "http://localhost:59731/api/Ajax/";
-
-
-
-
-
 
     function FormatImg() {
         $('.thumbnail').find('img').each(function () {
@@ -61,7 +138,7 @@
         }
     }
     function EditProduct() {
-        $('.btnEditProduct').unbind('click').click(function () {
+        $('.btnEditProduct').off("click").on("click", function () {
             var r = confirm("確定要修改嗎?");
             if (r == true) {
                 var stock, fName, fPrice, fPId;
@@ -94,7 +171,7 @@
         var re = new RegExp(regu);
         return re.test(str);
     }
-    $('#newfKind_btn').unbind('click').click(function () {
+    $('#newfKind_btn').off("click").on("click", function () {
         if (isNull($('#newfKind').val()) == false) { $('#fKind').append('<option value=' + $('#newfKind').val().replace(/\s+/g, "") + '>' + $('#newfKind').val().replace(/\s+/g, "") + '</option>'); }
         $('#fKind option[value=' + $('#newfKind').val().replace(/\s+/g, "") + ']').attr('selected', 'selected');
     })
@@ -118,13 +195,13 @@
                             '<p>單價：<input type="text" value="' + data[i].fPrice + '" id="fPrice" name="fPrice"></p>' +
                             '<p>庫存：<input type="text" value="' + data[i].stock + '" id="stock" name="stock"></p>' +
                             '<p>銷量：' + data[i].fSales + '</p>' +
+                            '<p>上架日期：' + data[i].fDate + '</p>' +
                             '<p><div class="btn btn-primary btnEditProduct">修改產品</div></p>' +
                             '<p><div class="btn btn-primary btnDeleteProduct">刪除產品</div></p>' +
                             '</div ></div ></div >'
                         )
                     }
                 }
-
                 FormatImg();
                 DeleteProduct();
                 EditProduct();
@@ -132,9 +209,189 @@
         })
     }
 
+    $('.OrderStatusEdit').off("click").on("click", function () {
+        var r = confirm("確定要修改嗎?");
+        if (r == true) {
+            var fOrderGuid, fStatus;
+            fOrderGuid = $(this).parent().siblings('.fOrderGuid').attr('id');
+            fStatus = $(this).siblings('select').val();
+            var data = "?fOrderGuid=" + fOrderGuid + "&fStatus=" + fStatus;
+            $.ajax({
+                url: apiurl + "PutEditProductStatus" + encodeURI(data),
+                type: 'PUT',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result != 0) {
+                        alert("修改成功");
+                    } else {
+                        alert("修改失敗");
+                    }
+                }
+            });
+        }
+    });
 
+    function LoadShoppingCar() {
+        var fUserId = $('#Member_head').attr("name");
+        var data = "?fUserId=" + fUserId;
+        $.ajax({
+            url: apiurl + "GetShowShoppingCar" + encodeURI(data),
+            type: 'GET',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#TempCar table').empty();
+                for (var i = 0; i < data.length; i++) {
+                    $('#TempCar table').append(
+                        '<tr id="fPId" name="' + data[i].fPId + '"><td id="fName" name="' + data[i].fName + '">產品:' + data[i].fName +
+                        '</td ><td id="fPrice" name="' + data[i].fPrice + '">單價:' + data[i].fPrice +
+                        '</td ><td id="fQty" name="' + data[i].fQty + '">數量:' + '<input min="1" max="20" step="1" class="TopChageShoppingCarfQty" type="number" value="' + data[i].fQty + '">' +
+                        '</td ><td>總價:' + data[i].fQty * data[i].fPrice +
+                        '</td><td><div class="btn btn-primary deleteShoppingCar">刪除購物車</div></td>' +
+                        "</tr > "
+                    )
+                }
+                DeleteShoppingCar();
+                TopChageShoppingCarfQty();
+                if ($('#shoppingcartable tr').length > 1) {
+                    $('#OrderShoppingCar').attr('disabled', false);
+                } else {
+                    $('#OrderShoppingCar').attr('disabled', true);
+                }
+            }
+        });
+    }
+    function DeleteShoppingCar() {
+        $('.deleteShoppingCar').off("click").on("click", function () {
+            var thisItem = $(this).parent().parent('tr');
+            var fUserId = $('#Member_head').attr("name");
+            var fName = $(this).parent().siblings('#fName').attr("name");
+            var fPrice = $(this).parent().siblings('#fPrice').attr("name");
+            var fQty = $(this).parent().siblings('#fQty').attr("name");
+            var fPId = $(this).parent().parent('#fPId').attr("name");
+            var data = "?fUserId=" + fUserId + "&fName=" + fName + "&fPrice=" + fPrice + "&fQty=" + fQty + "&fPId=" + fPId;
+            $.ajax({
+                url: apiurl + "DeleteShoppingCar" + encodeURI(data),
+                type: 'DELETE',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result != 0) {
+                        thisItem.remove();
+                        LoadShoppingCarbyView();
+                    } else {
+                        alert("刪除失敗");
+                    }
+                }
+            });
+
+        })
+
+    }
+
+    function DeleteShoppingCarbyView() {
+        $('.deleteShoppingCarbyView').off("click").on("click", function () {
+            var thisItem = $(this).parent().parent('tr');
+            var fUserId = $(this).parent().siblings('#fUserId').attr("name");
+            var fName = $(this).parent().siblings('#fName').attr("name");
+            var fPrice = $(this).parent().siblings('#fPrice').attr("name");
+            var fQty = $(this).parent().siblings('#fQty').attr("name");
+            var fPId = $(this).parent().siblings('#fPId').attr("name");
+            var data = "?fUserId=" + fUserId + "&fName=" + fName + "&fPrice=" + fPrice + "&fQty=" + fQty + "&fPId=" + fPId;
+            $.ajax({
+                url: apiurl + "DeleteShoppingCar" + encodeURI(data),
+                type: 'DELETE',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result != 0) {
+                        thisItem.remove();
+
+                    } else {
+                        alert("刪除失敗");
+                    }
+                    LoadShoppingCarbyView();
+                }
+            });
+
+
+        });
+
+    }
+    DeleteShoppingCarbyView();
+
+
+
+
+    function LoadShoppingCarbyView() {
+        var fUserId = $('#Member_head').attr("name");
+        var data = "?fUserId=" + fUserId;
+        $.ajax({
+            url: apiurl + "GetShowShoppingCar" + encodeURI(data),
+            type: 'GET',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $('#shoppingcartable tr:first-child').siblings('tr').remove();
+                for (var i = 0; i < data.length; i++) {
+                    $('#shoppingcartable').append(
+                        '<tr>' +
+                        '<td id="fUserId" name="' + data[i].fUserId + '">' + data[i].fUserId + '</td>' +
+                        '<td id="fPId" name="' + data[i].fPId + '">' + data[i].fPId + '</td>' +
+                        '<td id="fName" name="' + data[i].fName + '">' + data[i].fName + '</td>' +
+                        '<td id="fPrice" name="' + data[i].fPrice + '">' + data[i].fPrice + '</td>' +
+                        '<td id="fQty" name="' + data[i].fQty + '">' + '<input  type="number"  min="1" max="20" step="1" class="ChageShoppingCarfQty" value="' + data[i].fQty + '" required >' + '</td>' +
+                        '<td>' + data[i].fPrice * data[i].fQty + '</td>' +
+                        '<td><div class="btn btn-primary deleteShoppingCarbyView">刪除購物車</div></td>' +
+                        '</tr>'
+                    )
+                }
+                DeleteShoppingCarbyView();
+                ChageShoppingCarfQty();
+                if ($('#shoppingcartable tr').length > 1) {
+                    $('#OrderShoppingCar').attr('disabled', false);
+                } else {
+                    $('#OrderShoppingCar').attr('disabled', true);
+                }
+            }
+        });
+    }
+
+
+
+
+
+
+
+    $('.btnAddCar').off("click").on("click", function () {
+        var fUserId, fPId;
+        fUserId = $('#Member_head').attr("name");
+        fPId = $(this).siblings("h2").attr("id");
+        var data = "?fPId=" + fPId + "&fUserId=" + fUserId;
+        $.ajax({
+            url: apiurl + "PostAddCar" + encodeURI(data),
+            type: 'POST',
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+
+                if (result != 0) {
+                    alert("加入成功");
+                } else {
+                    alert("加入失敗");
+                }
+            }
+        });
+    });
     function DeleteProduct() {
-        $('.btnDeleteProduct').unbind('click').click(function () {
+        $('.btnDeleteProduct').off("click").on("click", function () {
             var r = confirm("確定要刪除嗎?");
             if (r == true) {
                 var fPId;

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,7 @@
                 </button>
                 @Html.ActionLink("線上購物車-會員專區", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse" id="Member_head">
+            <div class="navbar-collapse collapse" id="Member_head" name="@Session["MemberUserId"]">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("產品列表", "Index", "Home")</li>
                     <li id="ShoppingCar">@Html.ActionLink("購物車", "ShoppingCar", "Home")</li>
@@ -32,14 +33,10 @@
                     <li><a href="#">@Session["WelCome"]</a></li>
                 </ul>
             </div>
-            <div style="  background-color: wheat;display:none;" id="tempCar">
-                @if (Session["CurrentCar"] != null)
-                {
-                    <table class="table">
-                        @Html.Raw(@Session["CurrentCar"])
-                    </table>
-                    <p>@Html.ActionLink("結帳去", "ShoppingCar", "Home")</p>
-                }
+            <div style="  background-color: wheat;display:none;" id="TempCar">
+                <table class="table">        
+                </table>
+                <p><a href="@Url.Action("ShoppingCar")" class="btn btn-info">結帳去</a></p>
             </div>
 
         </div>

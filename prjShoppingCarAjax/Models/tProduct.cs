@@ -35,5 +35,7 @@ namespace prjShoppingCarAjax.Models
         public string fKind { get; set; }
         [DisplayName("銷量")]
         public Nullable<int> fSales { get; set; }
+        [DisplayName("上架日期")]
+        public Nullable<System.DateTime> fDate { get; set; }
     }
 }

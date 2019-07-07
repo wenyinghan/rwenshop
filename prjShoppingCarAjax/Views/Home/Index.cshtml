@@ -2,9 +2,76 @@
 
 @{
     ViewBag.Title = "產品列表";
-
-
 }
+<p style="margin-top:10px;">
+    <select onChange="location = this.options[this.selectedIndex].value;">
+
+        @if (Session["Orderby"].ToString() == "日期排序新到舊")
+        {
+            <option value="/Home/Index?orderby=日期排序新到舊" selected>日期排序新到舊</option>
+        }
+        else
+        {
+            <option value="/Home/Index?orderby=日期排序新到舊">日期排序新到舊</option>
+        }
+        @if (Session["Orderby"].ToString() == "日期排序舊到新")
+        {
+            <option value="/Home/Index?orderby=日期排序舊到新" selected>日期排序舊到新</option>
+        }
+        else
+        {
+            <option value="/Home/Index?orderby=日期排序舊到新">日期排序舊到新</option>
+        }
+        @if (Session["Orderby"].ToString() == "種類排序")
+        {
+            <option value="/Home/Index?orderby=種類排序" selected>種類排序</option>
+        }
+        else
+        {
+            <option value="/Home/Index?orderby=種類排序">種類排序</option>
+        }
+        @if (Session["Orderby"].ToString() == "銷量排序高到低")
+        {
+            <option value="/Home/Index?orderby=銷量排序高到低" selected>銷量排序高到低</option>
+        }
+        else
+        {
+            <option value="/Home/Index?orderby=銷量排序高到低">銷量排序高到低</option>
+        }
+        @if (Session["Orderby"].ToString() == "銷量排序低到高")
+        {
+            <option value="/Home/Index?orderby=銷量排序低到高" selected>銷量排序低到高</option>
+        }
+        else
+        {
+            <option value="/Home/Index?orderby=銷量排序低到高">銷量排序低到高</option>
+        }
+        @if (Session["Orderby"].ToString() == "價錢排序高到低")
+        {
+            <option value="/Home/Index?orderby=價錢排序高到低" selected>價錢排序高到低</option>
+        }
+        else
+        {
+            <option value="/Home/Index?orderby=價錢排序高到低">價錢排序高到低</option>
+        }
+        @if (Session["Orderby"].ToString() == "價錢排序低到高")
+        {
+            <option value="/Home/Index?orderby=價錢排序低到高" selected>價錢排序低到高</option>
+        }
+        else
+        {
+            <option value="/Home/Index?orderby=價錢排序低到高">價錢排序低到高</option>
+        }
+
+    </select>
+    <select>
+        <option>全部</option>
+        @foreach (var item in (Session["AllProducts"] as IEnumerable<prjShoppingCarAjax.Models.tProduct>))
+        {
+            <option>@item.fKind</option>
+        }
+    </select>
+</p>
 
 <div class="row" id="rowShow">
     @foreach (var item in Model)
@@ -16,13 +83,13 @@
 
                     @if (Session["Member"] != null)
                     {
-
-                        <h2>@item.fName</h2>
+                        <h2 id="@item.fPId">@item.fName</h2>
                         <p>種類：@item.fKind</p>
                         <p>單價：@item.fPrice</p>
                         <p>庫存：@item.stock</p>
                         <p>銷量：@item.fSales</p>
-                        <p><div class="btn btn-primary" id="btnAddCar">加入購物車</div></p>
+                        <p>上架日期：@item.fDate</p>
+                        <p><div class="btn btn-primary btnAddCar">加入購物車</div></p>
                     }
                     else if (Session["Admin"] != null)
                     {
@@ -33,19 +100,19 @@
                         <p>單價：<input type="text" value="@item.fPrice" id="fPrice" name="fPrice"></p>
                         <p>庫存：<input type="text" value="@item.stock" id="stock" name="stock"></p>
                         <p>銷量：@item.fSales</p>
+                        <p>上架日期：@item.fDate</p>
                         <p><div class="btn btn-primary btnEditProduct">修改產品</div></p>
                         <p><div class="btn btn-primary btnDeleteProduct">刪除產品</div></p>
                     }
                     else
                     {
                         <h2>@item.fName</h2>
-
                         <p>種類：@item.fKind</p>
                         <p>單價：@item.fPrice</p>
                         <p>庫存：@item.stock</p>
                         <p>銷量：@item.fSales</p>
+                        <p>上架日期：@item.fDate</p>
                     }
-
                 </div>
             </div>
         </div>

@@ -223,6 +223,10 @@
     <Content Include="Views\Shared\_LayoutAdmin.cshtml" />
     <Content Include="Views\Home\CreateProduct.cshtml" />
     <Content Include="Views\Shared\_LayoutMember.cshtml" />
+    <Content Include="Views\Home\OrderList.cshtml" />
+    <Content Include="Views\Home\OrderDetail.cshtml" />
+    <Content Include="Views\Home\ShoppingCar.cshtml" />
+    <Content Include="Views\Home\Register.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

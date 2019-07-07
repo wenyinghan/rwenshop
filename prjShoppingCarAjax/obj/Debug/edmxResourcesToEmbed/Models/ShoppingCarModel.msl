@@ -52,6 +52,7 @@
           <ScalarProperty Name="stock" ColumnName="stock" />
           <ScalarProperty Name="fKind" ColumnName="fKind" />
           <ScalarProperty Name="fSales" ColumnName="fSales" />
+          <ScalarProperty Name="fDate" ColumnName="fDate" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

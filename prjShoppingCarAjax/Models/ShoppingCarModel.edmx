@@ -54,6 +54,7 @@
           <Property Name="stock" Type="int" />
           <Property Name="fKind" Type="nchar" MaxLength="50" />
           <Property Name="fSales" Type="int" />
+          <Property Name="fDate" Type="date" />
         </EntityType>
         <EntityContainer Name="dbShoppingCarModelStoreContainer">
           <EntitySet Name="tMember" EntityType="Self.tMember" Schema="dbo" store:Type="Tables" />
@@ -115,6 +116,7 @@
           <Property Name="stock" Type="Int32" />
           <Property Name="fKind" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="fSales" Type="Int32" />
+          <Property Name="fDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityContainer Name="dbShoppingCarEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="tMember" EntityType="Self.tMember" />
@@ -179,6 +181,7 @@
                 <ScalarProperty Name="stock" ColumnName="stock" />
                 <ScalarProperty Name="fKind" ColumnName="fKind" />
                 <ScalarProperty Name="fSales" ColumnName="fSales" />
+                <ScalarProperty Name="fDate" ColumnName="fDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
