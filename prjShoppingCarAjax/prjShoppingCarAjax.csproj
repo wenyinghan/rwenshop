@@ -120,24 +120,10 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="images\097c0a80-31b1-4785-bcbe-9b4ab20d37cfmenu.png" />
-    <Content Include="images\1d906cd2-050b-4cc5-ba12-3011e5f25a90.jpg" />
-    <Content Include="images\3bd9e03c-ac67-4cd7-beb4-c1e9a1a9f1ad4.jpg" />
-    <Content Include="images\3d310aa6-0827-4c3c-a93f-0dc4392b684656857732_314354135918825_3326719523876241408_n.jpg" />
-    <Content Include="images\5e744cab-ee42-4ad7-999f-7c0f50d40a4dimages.png" />
-    <Content Include="images\718c7d0d-5014-4d58-a35d-733793cbb8c64.jpg" />
-    <Content Include="images\97bd5c55-2df0-4889-8457-a88821690339162612.jpg" />
-    <Content Include="images\a808a7ed-da75-40da-8c02-b8c0a401e720250px-Whats_Wrong_With_Secretary_Kim.png" />
-    <Content Include="images\c6e9e694-afe0-41fc-ba7e-f9e65be326dcmenu.png" />
-    <Content Include="images\c7fa1d09-2af5-4fe7-af3b-6de3e473da2f.jpg" />
-    <Content Include="images\d4e429f4-b488-4b04-a268-11b0f6a4741e研究流程.png" />
-    <Content Include="images\d80e8d1a-afcd-4a98-ba17-ebae3e7d5d19images.png" />
-    <Content Include="images\fb505505-4433-447c-bb91-f3b4d8ec6cea162612.jpg" />
     <Content Include="images\iphone8.jpg" />
     <Content Include="images\nopic.jpg" />
     <Content Include="images\ps4.jpg" />
     <Content Include="images\xboxone.jpg" />
-    <Content Include="images\擷取.PNG" />
     <Content Include="Models\ShoppingCarModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ShoppingCarModel.edmx</DependentUpon>
@@ -234,7 +220,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>

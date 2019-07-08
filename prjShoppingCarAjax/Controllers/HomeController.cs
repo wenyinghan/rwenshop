@@ -14,7 +14,7 @@ namespace prjShoppingCarAjax.Controllers
         dbShoppingCarEntities db = new dbShoppingCarEntities();
 
         // 首頁
-        public ActionResult Index(string orderby = "日期排序新到舊")
+        public ActionResult Index(string orderby = "日期排序新到舊", string productkind = "全部", string keyword = "")
         {
             var products = db.tProduct.OrderByDescending(m => m.fDate).ToList();
             Session["AllProducts"] = db.tProduct
@@ -22,34 +22,47 @@ namespace prjShoppingCarAjax.Controllers
                                        .Select(g => g.FirstOrDefault())
                                        .ToList();
             Session["Orderby"] = orderby;
+            Session["Keyword"] = keyword;
+            Session["Productkind"] = productkind;
             if (orderby == "日期排序新到舊")
             {
                 products = db.tProduct.OrderByDescending(m => m.fDate).ToList();
             }
-            if (orderby == "日期排序舊到新")
+            else if (orderby == "日期排序舊到新")
             {
                 products = db.tProduct.OrderBy(m => m.fDate).ToList();
             }
-            if (orderby == "種類排序")
+            else if (orderby == "種類排序")
             {
                 products = db.tProduct.OrderBy(m => m.fKind).ToList();
             }
-            if (orderby == "銷量排序高到低")
+            else if (orderby == "銷量排序高到低")
             {
                 products = db.tProduct.OrderByDescending(m => m.fSales).ToList();
             }
-            if (orderby == "銷量排序低到高")
+            else if (orderby == "銷量排序低到高")
             {
                 products = db.tProduct.OrderBy(m => m.fSales).ToList();
             }
-            if (orderby == "價錢排序高到低")
+            else if (orderby == "價錢排序高到低")
             {
                 products = db.tProduct.OrderByDescending(m => m.fPrice).ToList();
             }
-            if (orderby == "價錢排序低到高")
+            else if (orderby == "價錢排序低到高")
             {
                 products = db.tProduct.OrderBy(m => m.fPrice).ToList();
             }
+
+            if (productkind != "全部")
+            {
+                products = products.Where(m => m.fKind.Contains(productkind)).ToList();
+            }
+
+            if (keyword != "")
+            {
+                products = products.Where(m => m.fName.Contains(keyword)).ToList();
+            }
+
             if (Session["Member"] != null)
             {
                 //如果是會員就給會員Layout
@@ -84,7 +97,7 @@ namespace prjShoppingCarAjax.Controllers
                 ViewBag.Message = "帳密錯誤，登入失敗";
                 return View();
             }
-            if (member.fUserId == "123" && member.fPwd == "123")
+            if (member.fUserId == "admin" && member.fPwd == "admin")
             {
                 //管理員登入
                 Session["Admin"] = member;
@@ -95,7 +108,7 @@ namespace prjShoppingCarAjax.Controllers
                 Session["Member"] = member;
                 Session["MemberUserId"] = (Session["Member"] as tMember).fUserId;
             }
-            Session["WelCome"] = member.fName + "歡迎光臨";
+            Session["WelCome"] = member.fName + " - 歡迎光臨";
             //回到首頁
             return RedirectToAction("Index");
         }
@@ -287,7 +300,7 @@ namespace prjShoppingCarAjax.Controllers
                 .FirstOrDefault();
 
                 //使用Session變數記錄歡迎詞
-                Session["WelCome"] = real_member.fName + "歡迎光臨";
+                Session["WelCome"] = real_member.fName + " - 歡迎光臨";
                 //使用Session變數記錄登入的會員物件
                 Session["Member"] = real_member;
                 return RedirectToAction("Index");

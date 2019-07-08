@@ -236,6 +236,10 @@ namespace prjShoppingCarAjax.Controllers
                     db.tOrderDetail.Remove(item);
                 }
                 db.SaveChanges();
+                string new_path = System.Web.HttpContext.Current.Server.MapPath("~") + "\\images\\";
+                string productImgName = product.fImg;
+                string FileName = new_path + productImgName;
+                System.IO.File.Delete(FileName);
             }
             catch (Exception ex)
             {
