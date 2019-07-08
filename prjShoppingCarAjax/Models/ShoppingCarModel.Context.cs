@@ -13,10 +13,10 @@ namespace prjShoppingCarAjax.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class dbShoppingCarEntities : DbContext
+    public partial class ShoppingCarEntities : DbContext
     {
-        public dbShoppingCarEntities()
-            : base("name=dbShoppingCarEntities")
+        public ShoppingCarEntities()
+            : base("name=ShoppingCarEntities")
         {
         }
     
@@ -25,6 +25,7 @@ namespace prjShoppingCarAjax.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<tMember> tMember { get; set; }
         public virtual DbSet<tOrder> tOrder { get; set; }
         public virtual DbSet<tOrderDetail> tOrderDetail { get; set; }

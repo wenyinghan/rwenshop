@@ -11,7 +11,7 @@ namespace prjShoppingCarAjax.Controllers
 {
     public class HomeController : Controller
     {
-        dbShoppingCarEntities db = new dbShoppingCarEntities();
+        ShoppingCarEntities db = new ShoppingCarEntities();
 
         // 首頁
         public ActionResult Index(string orderby = "日期排序新到舊", string productkind = "全部", string keyword = "")
@@ -215,7 +215,7 @@ namespace prjShoppingCarAjax.Controllers
             string fUserId = (Session["Member"] as tMember).fUserId;
             //找出未成為訂單明細的資料，即購物車內容
             var orderDetails = db.tOrderDetail.Where
-                (m => m.fUserId == fUserId && m.fIsApproved == "否")
+                (m => m.fUserId == fUserId && m.fIsApproves == "否")
                 .ToList();
             //指定ShoopingCar.cshtml套用_LayoutMember.cshtml，View使用orderDetails模型
             return View("ShoppingCar", "_LayoutMember", orderDetails);
@@ -246,7 +246,7 @@ namespace prjShoppingCarAjax.Controllers
             db.tOrder.Add(order);
             //找出目前會員在訂單明細中是購物車狀態的產品
             var carList = db.tOrderDetail
-                .Where(m => m.fIsApproved == "否" && m.fUserId == fUserId)
+                .Where(m => m.fIsApproves == "否" && m.fUserId == fUserId)
                 .ToList();
             //將購物車狀態產品的fIsApproved設為"是"，表示確認訂購產品
             foreach (var item in carList)
@@ -260,7 +260,7 @@ namespace prjShoppingCarAjax.Controllers
                 product.stock -= item.fQty;
                 product.fSales += item.fQty;
                 item.fOrderGuid = guid;
-                item.fIsApproved = "是";
+                item.fIsApproves = "是";
             }
             //更新資料庫，異動tOrder和tOrderDetail
             //完成訂單主檔和訂單明細的更新

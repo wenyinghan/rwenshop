@@ -1,5 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="dbShoppingCarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+<Schema Namespace="ShoppingCarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
   <EntityType Name="tMember">
     <Key>
       <PropertyRef Name="fId" />
@@ -34,7 +44,7 @@
     <Property Name="fName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="fPrice" Type="Int32" />
     <Property Name="fQty" Type="Int32" />
-    <Property Name="fIsApproved" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="fIsApproves" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
     <Property Name="fStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="tProduct">
@@ -47,11 +57,12 @@
     <Property Name="fPrice" Type="Int32" />
     <Property Name="fImg" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="stock" Type="Int32" />
-    <Property Name="fKind" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="fKind" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="fSales" Type="Int32" />
     <Property Name="fDate" Type="DateTime" Precision="0" />
   </EntityType>
-  <EntityContainer Name="dbShoppingCarEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="ShoppingCarEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="tMember" EntityType="Self.tMember" />
     <EntitySet Name="tOrder" EntityType="Self.tOrder" />
     <EntitySet Name="tOrderDetail" EntityType="Self.tOrderDetail" />

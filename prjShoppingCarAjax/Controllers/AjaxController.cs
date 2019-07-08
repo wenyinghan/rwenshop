@@ -14,7 +14,7 @@ namespace prjShoppingCarAjax.Controllers
 {
     public class AjaxController : ApiController
     {
-        dbShoppingCarEntities db = new dbShoppingCarEntities();
+        ShoppingCarEntities db = new ShoppingCarEntities();
         /*    // GET: api/Ajax
             public IEnumerable<string> GetProductByPrice() //依照產品價錢
             {
@@ -61,7 +61,7 @@ namespace prjShoppingCarAjax.Controllers
                   System.IO.File.Move(oldfile, newfile);*/
 
                 var OrderDetails = db.tOrderDetail
-                        .Where(m => m.fIsApproved == "否"
+                        .Where(m => m.fIsApproves == "否"
                         && m.fPId == fPId).ToList();
                 foreach (var item in OrderDetails)
                 {
@@ -107,7 +107,7 @@ namespace prjShoppingCarAjax.Controllers
             try
             {
                 var currentCar = db.tOrderDetail
-                .Where(m => m.fPId == fPId && m.fIsApproved == "否" && m.fUserId == fUserId)
+                .Where(m => m.fPId == fPId && m.fIsApproves == "否" && m.fUserId == fUserId)
                 .FirstOrDefault();
 
                 var product = db.tProduct.Where(m => m.fPId == fPId).FirstOrDefault();
@@ -120,13 +120,17 @@ namespace prjShoppingCarAjax.Controllers
                         fName = product.fName,
                         fPrice = product.fPrice,
                         fQty = 1,
-                        fIsApproved = "否"
+                        fIsApproves = "否"
                     };
                     db.tOrderDetail.Add(orderDetail);
                 }
-                else
+                else if (currentCar.fQty < 20)
                 {
                     currentCar.fQty += 1;
+                }
+                else
+                {
+                    num = 0;
                 }
                 db.SaveChanges();
 
@@ -140,7 +144,7 @@ namespace prjShoppingCarAjax.Controllers
         }
         public List<tOrderDetail> GetShowShoppingCar(string fUserId)//用戶顯示購物車
         {
-            var currentCars = db.tOrderDetail.Where(m => m.fUserId == fUserId && m.fIsApproved == "否").ToList();
+            var currentCars = db.tOrderDetail.Where(m => m.fUserId == fUserId && m.fIsApproves == "否").ToList();
             return currentCars;
         }
 
@@ -161,7 +165,7 @@ namespace prjShoppingCarAjax.Controllers
             {
                 var currentCar = db.tOrderDetail
                         .Where(m => m.fUserId == fUserId
-                        && m.fIsApproved == "否"
+                        && m.fIsApproves == "否"
                         && m.fPId == fPId
                         && m.fName == fName
                         && m.fPrice == myfPrice
@@ -189,14 +193,14 @@ namespace prjShoppingCarAjax.Controllers
             if (int.TryParse(newfQty, out int i))
             {
                 mynewfQty = i;
-            }           
+            }
             mynewfQty = mynewfQty > 20 ? 20 : mynewfQty;
             mynewfQty = mynewfQty < 1 ? 1 : mynewfQty;
             try
             {
                 var currentCar = db.tOrderDetail
                         .Where(m => m.fUserId == fUserId
-                        && m.fIsApproved == "否"
+                        && m.fIsApproves == "否"
                         && m.fPId == fPId
                         && m.fName == fName
                         && m.fPrice == myfPrice
@@ -226,7 +230,7 @@ namespace prjShoppingCarAjax.Controllers
             try
             {
                 var currentCars = db.tOrderDetail
-                    .Where(m => m.fPId == fPId && m.fIsApproved == "否").ToList();
+                    .Where(m => m.fPId == fPId && m.fIsApproves == "否").ToList();
                 var product = db.tProduct
                     .Where(m => m.fPId == fPId)
                     .FirstOrDefault();

@@ -14,7 +14,7 @@
         <div class="form-group">
             <label for="fPId" class="control-label col-md-2">產品編號</label>
             <div class="col-md-10">
-                <input type="text" id="fPId" name="fPId" class="form-control" required />
+                <input  maxlength="20" type="text" id="fPId" name="fPId" class="form-control" required />
                 <font color="red"> @Session["ProductExisted"]</font>
             </div>
         </div>
@@ -22,7 +22,7 @@
         <div class="form-group">
             <label for="newfKind" id="newfKind_btn" class="control-label col-md-2"><fornt class="btn btn-info">新增產品種類</fornt></label>
             <div class="col-md-10">
-                <input type="text" id="newfKind" class="form-control" />
+                <input maxlength="20" type="text" id="newfKind" class="form-control" />
             </div>
         </div>
         <div class="form-group">
@@ -39,19 +39,19 @@
         <div class="form-group">
             <label for="fName" class="control-label col-md-2">產品名稱</label>
             <div class="col-md-10">
-                <input type="text" id="fName" name="fName" class="form-control" required />
+                <input  maxlength="20" type="text" id="fName" name="fName" class="form-control" required />
             </div>
         </div>
         <div class="form-group">
             <label for="fPrice" class="control-label col-md-2">產品價錢</label>
             <div class="col-md-10">
-                <input type="text" id="fPrice" name="fPrice" class="form-control" oninput="value=value.replace(/[^\d]/g,'')" required />
+                <input  maxlength="9" type="text" id="fPrice" name="fPrice" class="form-control" oninput="value=value.replace(/[^\d]/g,'')" required />
             </div>
         </div>
         <div class="form-group">
             <label for="stock" class="control-label col-md-2">庫存</label>
             <div class="col-md-10">
-                <input type="text" id="stock" name="stock" class="form-control" oninput="value=value.replace(/[^\d]/g,'')" required />
+                <input maxlength="9" type="text" id="stock" name="stock" class="form-control" oninput="value=value.replace(/[^\d]/g,'')" required />
             </div>
         </div>
         上傳產品照片

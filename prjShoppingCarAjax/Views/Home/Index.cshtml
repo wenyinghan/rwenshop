@@ -83,11 +83,11 @@
     </select>
     @if (Session["Keyword"].ToString() != null)
     {
-        <input type="text" name="keyword" value="@Session["Keyword"].ToString()" />
+        <input maxlength="20" type="text" name="keyword" value="@Session["Keyword"].ToString()" />
     }
     else
     {
-        <input type="text" name="keyword" value="" />
+        <input maxlength="20" type="text" name="keyword" value="" />
     }
 
     <input type="submit" value="送出查詢" />
@@ -118,9 +118,9 @@
                         <p>上傳產品照片：<input type="file" name="fImg" id="fImg" accept="image/gif, image/jpeg, image/png" /></p>
                         <p id="fPId" name="@item.fPId">編號：@item.fPId</p>
                         <p>種類：@item.fKind</p>
-                        <h2><input type="text" value="@item.fName" id="fName" name="fPrice"></h2>
-                        <p>單價：<input type="text" value="@item.fPrice" id="fPrice" name="fPrice"></p>
-                        <p>庫存：<input type="text" value="@item.stock" id="stock" name="stock"></p>
+                        <h2><input maxlength="20" type="text" value="@item.fName" id="fName" name="fPrice"></h2>
+                        <p>單價：<input maxlength="9" type="text" value="@item.fPrice" id="fPrice" name="fPrice"></p>
+                        <p>庫存：<input maxlength="9" type="text" value="@item.stock" id="stock" name="stock"></p>
                         <p>銷量：@item.fSales</p>
                         <p>上架日期：@item.fDate.ToString().Replace(" 上午 12:00:00","")</p>
                         <p><div class="btn btn-primary btnEditProduct">修改產品</div></p>

@@ -1,4 +1,3 @@
-C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.csprojAssemblyReference.cache
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.csproj.CoreCompileInputs.cache
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\prjShoppingCarAjax.dll.config
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\prjShoppingCarAjax.dll
@@ -89,3 +88,4 @@ C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\zh-Hant\S
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.csproj.CopyComplete
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.dll
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.pdb
+C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.csprojAssemblyReference.cache

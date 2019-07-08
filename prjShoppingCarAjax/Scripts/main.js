@@ -5,23 +5,22 @@
     } else {
         $('#OrderShoppingCar').attr('disabled', true);
     }
-    $("#ShoppingCar").hover(function () {
-        $(this).css("background-color", "#999999");
-        LoadShoppingCar();
-        $('#TempCar').show();
-    }, function () {
-        $("#ShoppingCar").siblings('li').hover(function () {
-            $('#TempCar').hide();
-            $("#ShoppingCar").css("background-color", "rgb(34, 34, 34)");
-        });
-        $("#TempCar").hover(function () {
-            $('#TempCar').show();
-        }, function () {
-            $('#TempCar').hide();
-                $("#ShoppingCar").css("background-color", "rgb(34, 34, 34)");
-        });
+
+    $("#ShoppingCar").off("click").on("click", function () {
+
+        if ($("#TempCar").css("display") == "none") {
+            $(this).css("background-color", "#999999");
+            LoadShoppingCar();
+            $('#TempCar').slideDown();
+        } else {
+            $(this).css("background-color", "rgb(34, 34, 34)");
+            $('#TempCar').slideUp();
+        };
 
     });
+
+
+
     //從頁面改變購物車數量
     function ChageShoppingCarfQty() {
         $(".ChageShoppingCarfQty").change(function () {
@@ -81,8 +80,9 @@
         });
 
     };
-
-    var apiurl = "http://localhost:59731/api/Ajax/";
+    //localhost:59731
+    //http://218.161.70.68
+    var apiurl = "http://rwenshop.wenyinghan.nctu.me/api/Ajax/";
 
     function FormatImg() {
         $('.thumbnail').find('img').each(function () {
@@ -392,8 +392,9 @@
 
                 if (result != 0) {
                     alert("加入成功");
+                    LoadShoppingCar();
                 } else {
-                    alert("加入失敗");
+                    alert("單一商品購買數量上限為20個");
                 }
             }
         });

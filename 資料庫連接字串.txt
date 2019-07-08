@@ -1,0 +1,1 @@
+metadata=res://*/Models.ShoppingCarModel.csdl|res://*/Models.ShoppingCarModel.ssdl|res://*/Models.ShoppingCarModel.msl;provider=System.Data.SqlClient;provider connection string="data source=DESKTOP-L78NC9K\SQLEXPRESS;initial catalog=ShoppingCar;persist security info=True;user id=wenyinghan;password=***********;MultipleActiveResultSets=True;App=EntityFramework"

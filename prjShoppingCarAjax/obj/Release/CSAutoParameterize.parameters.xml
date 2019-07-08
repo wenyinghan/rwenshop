@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="dbShoppingCarEntities-Web.config Connection String" description="dbShoppingCarEntities 應用程式在 web.config 中用來存取資料庫的連接字串。" defaultValue="metadata=res://*/Models.ShoppingCarModel.csdl|res://*/Models.ShoppingCarModel.ssdl|res://*/Models.ShoppingCarModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\dbShoppingCar.mdf;integrated security=True;multipleactiveresultsets=True;application name=EntityFramework&quot;" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\j7pl1\\source\\repos\\slnjShoppingCarAjax\\prjShoppingCarAjax\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='dbShoppingCarEntities']/@connectionString" />
+  <parameter name="ShoppingCarEntities-Web.config Connection String" description="ShoppingCarEntities 應用程式在 web.config 中用來存取資料庫的連接字串。" defaultValue="metadata=res://*/Models.ShoppingCarModel.csdl|res://*/Models.ShoppingCarModel.ssdl|res://*/Models.ShoppingCarModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=DESKTOP-L78NC9K\SQLEXPRESS;initial catalog=ShoppingCar;persist security info=True;user id=wenyinghan;password=j122749185;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\j7pl1\\source\\repos\\slnjShoppingCarAjax\\prjShoppingCarAjax\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='ShoppingCarEntities']/@connectionString" />
   </parameter>
 </parameters>

@@ -36,7 +36,7 @@ namespace prjShoppingCarAjax.Models
         public Nullable<int> fQty { get; set; }
 
         [DisplayName("是否為訂單")]
-        public string fIsApproved { get; set; }
+        public string fIsApproves { get; set; }
         [DisplayName("訂單狀態")]
         public string fStatus { get; set; }
     }
