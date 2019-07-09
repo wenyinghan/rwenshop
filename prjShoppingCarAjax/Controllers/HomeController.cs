@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using PagedList;
 
 using prjShoppingCarAjax.Models;
 
@@ -12,10 +13,11 @@ namespace prjShoppingCarAjax.Controllers
     public class HomeController : Controller
     {
         ShoppingCarEntities db = new ShoppingCarEntities();
-
+        int pageSize = 9; //一頁9筆資料
         // 首頁
-        public ActionResult Index(string orderby = "日期排序新到舊", string productkind = "全部", string keyword = "")
+        public ActionResult Index(string orderby = "日期排序新到舊", string productkind = "全部", string keyword = "", int page = 1)
         {
+            int currentPage = page < 1 ? 1 : page;
             var products = db.tProduct.OrderByDescending(m => m.fDate).ToList();
             Session["AllProducts"] = db.tProduct
                                        .GroupBy(m => m.fKind)
@@ -63,19 +65,21 @@ namespace prjShoppingCarAjax.Controllers
                 products = products.Where(m => m.fName.Contains(keyword)).ToList();
             }
 
+            var result_product = products.ToPagedList(currentPage, pageSize);
+
             if (Session["Member"] != null)
             {
                 //如果是會員就給會員Layout
-                return View("Index", "_LayoutMember", products);
+                return View("Index", "_LayoutMember", result_product);
             }
 
             if (Session["Admin"] != null)
             {
                 //如果是管理者就給管理者Layout
-                return View("Index", "_LayoutAdmin", products);
+                return View("Index", "_LayoutAdmin", result_product);
             }
             //如果是訪客就給訪客Layout
-            return View("Index", "_Layout", products);
+            return View("Index", "_Layout", result_product);
         }
 
         //登入頁面

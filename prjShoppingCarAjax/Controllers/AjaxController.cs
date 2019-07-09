@@ -32,15 +32,7 @@ namespace prjShoppingCarAjax.Controllers
             var products = db.tProduct.OrderByDescending(m => m.fSales).ToList();
             return products;
         }
-        /*
-            // POST: api/Ajax
-            public void PostShoppingCar([FromBody]string value)//用戶新增購物車
-            {
-            }
-            public void PostProduct([FromBody]string value)//管理者新增商品
-            {
-            }*/
-        // PUT: api/Ajax/5
+       
         public int PutProduct(string fPId, string stock, string fName, string fPrice)//管理者修改商品
         {
 

@@ -1,4 +1,11 @@
 ﻿$(function () {
+    $('.thumbnail').hover(function () {
+        $(this).css("border-style", "outset");
+        $(this).css("border-color", "blue");
+    }, function () {
+        $(this).css("background-color", "#fff");
+        $(this).css("border", "1px solid #ddd");
+    });
     $('#ShoppingCar a').css("color", "yellow");
     if ($('#shoppingcartable tr').length > 1) {
         $('#OrderShoppingCar').attr('disabled', false);
@@ -7,7 +14,6 @@
     }
 
     $("#ShoppingCar").off("click").on("click", function () {
-
         if ($("#TempCar").css("display") == "none") {
             $(this).css("background-color", "#999999");
             LoadShoppingCar();
@@ -16,15 +22,10 @@
             $(this).css("background-color", "rgb(34, 34, 34)");
             $('#TempCar').slideUp();
         };
-
     });
-
-
-
     //從頁面改變購物車數量
     function ChageShoppingCarfQty() {
         $(".ChageShoppingCarfQty").change(function () {
-            var thisItem = $(this).parent().parent('tr');
             var fUserId = $('#Member_head').attr("name");
             var fName = $(this).parent().siblings('#fName').attr("name");
             var fPrice = $(this).parent().siblings('#fPrice').attr("name");
@@ -49,7 +50,6 @@
         });
 
     };
-
 
     ChageShoppingCarfQty();
     //從頂部改變購物車數量
@@ -85,15 +85,14 @@
     var apiurl = "http://rwenshop.wenyinghan.nctu.me/api/Ajax/";
 
     function FormatImg() {
-        $('.thumbnail').find('img').each(function () {
-
+        
+        $("img").each(function () {
             if (this.width < this.height) {
                 $(this).height(245);
                 $(this).width("auto");
                 $(this).css('margin-top', 0 + 'px');
                 $(this).css('margin-bottom', 0 + 'px');
             } else {
-
                 $(this).width(245);
                 $(this).height("auto");
                 var heigh = Math.floor($(this).height());
@@ -101,7 +100,13 @@
                 $(this).css('margin-top', Math.floor(((245 - heigh) / 2)) + 'px');
                 $(this).css('margin-bottom', Math.ceil(((245 - heigh) / 2)) + 'px');
             }
+           
         });
+
+
+        var thumbnail_height = $(".thumbnail:first").height();
+        $(".thumbnail").height(thumbnail_height);
+
         if ($("#preview_progressbarTW_img").width() < $("#preview_progressbarTW_img").height()) {
             $("#preview_progressbarTW_img").height(245);
             $("#preview_progressbarTW_img").width("auto");
@@ -110,8 +115,8 @@
             $("#preview_progressbarTW_img").css('margin-bottom', 0 + 'px');
             $("#preview_progressbarTW_img").css('margin-left', Math.floor(((245 - width) / 2)) + 'px');
             $("#preview_progressbarTW_img").css('margin-right', Math.ceil(((245 - width) / 2)) + 'px');
-        } else {
-
+        }
+        else {
             $("#preview_progressbarTW_img").width(245);
             $("#preview_progressbarTW_img").height("auto");
             var heigh = Math.floor($("#preview_progressbarTW_img").height());
@@ -119,6 +124,8 @@
             $("#preview_progressbarTW_img").css('margin-top', Math.floor(((245 - heigh) / 2)) + 'px');
             $("#preview_progressbarTW_img").css('margin-bottom', Math.ceil(((245 - heigh) / 2)) + 'px');
         }
+
+
     }
     FormatImg();
     $("input[name='fImg']").change(function () {
