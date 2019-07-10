@@ -5,12 +5,9 @@
 
     int alltotal = 0;
 }
-
 <h2>會員購物車清單</h2>
-
 <table class="table" id="shoppingcartable">
     <tr>
-
         <th>
             @Html.DisplayNameFor(model => model.fUserId)
         </th>
@@ -50,7 +47,7 @@
                 @Html.DisplayFor(modelItem => item.fPrice)
             </td>
             <td id="fQty" name="@Html.DisplayFor(modelItem => item.fQty)">
-                <input type="number" min="1" max="20" step="1" class="ChageShoppingCarfQty" value="@Html.DisplayFor(modelItem => item.fQty)" required >
+                <input type="number" min="1" max="20" step="1" class="ChageShoppingCarfQty" value="@Html.DisplayFor(modelItem => item.fQty)" required>
             </td>
             <td>
                 @{
@@ -68,6 +65,7 @@
     }
 
 </table>
+@Html.Raw(Session["StockShort"])  
 <h2 id="alltotal">總金額：@alltotal.ToString()</h2>
 <form action="@Url.Action("ShoppingCar")" method="post">
     <div class="form-horizontal">
@@ -77,29 +75,29 @@
         <div class="form-group">
             <span class="control-label col-md-2">收件人姓名</span>
             <div class="col-md-10">
-                <input type="text" id="fReceiver" name="fReceiver" required="required" class="form-control" />
+                <input maxlength="20" type="text" id="fReceiver" name="fReceiver" required="required" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <span class="control-label col-md-2">收件人信箱</span>
             <div class="col-md-10">
-                <input type="email" id="fEmail" name="fEmail" required="required" class="form-control" />
+                <input maxlength="40" type="email" id="fEmail" name="fEmail" required="required" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <span class="control-label col-md-2">收件人地址</span>
             <div class="col-md-10">
-                <input type="text" id="fAddress" name="fAddress" required="required" class="form-control" />
+                <input maxlength="40" type="text" id="fAddress" name="fAddress" required="required" class="form-control" />
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" id="OrderShoppingCar" disabled="disabled" value="確認訂購" class="btn btn-default"   onclick="if (confirm('確定下單嗎？')==false) {return false;}"/>
+                <input type="submit" id="OrderShoppingCar" disabled="disabled" value="確認訂購" class="btn btn-default" onclick="if (confirm('確定下單嗎？')==false) {return false;}" />
             </div>
         </div>
-        @Session["StockShort"]
+
     </div>
 </form>

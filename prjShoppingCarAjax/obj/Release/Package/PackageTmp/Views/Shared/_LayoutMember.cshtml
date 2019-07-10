@@ -10,7 +10,9 @@
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="~/Scripts/jquery.form.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
     <script src="~/Scripts/main.js"></script>
 </head>
 <body style="font-family:Microsoft JhengHei;">
@@ -27,13 +29,13 @@
             <div class="navbar-collapse collapse" id="Member_head" name="@Session["MemberUserId"]">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("產品列表", "Index", "Home")</li>
-                    <li id="ShoppingCar">@Html.ActionLink("購物車", "ShoppingCar", "Home")</li>
+                    <li id="ShoppingCar"><a href="#">購物車</a></li>
                     <li>@Html.ActionLink("訂單", "OrderList", "Home")</li>
                     <li>@Html.ActionLink("登出", "Logout", "Home")</li>
                     <li><a href="#">@Session["WelCome"]</a></li>
                 </ul>
             </div>
-            <div style="max-height:200px;overflow:auto; border-radius: 10px; background-color:#999999;display:none;" id="TempCar">
+            <div style="margin-bottom:20px;max-height:200px;overflow:auto; border-radius: 10px; background-color:#999999;display:none;" id="TempCar">
                
                 <table class="table"></table>
                 <p style="margin-left:10px;margin-bottom:10px;font-size:20px;" id="temptotal"></p>

@@ -89,3 +89,8 @@ C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Release\p
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Release\prjShoppingCarAjax.csproj.CopyComplete
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Release\prjShoppingCarAjax.dll
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Release\prjShoppingCarAjax.pdb
+C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\PagedList.dll
+C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\PagedList.Mvc.dll
+C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\PagedList.xml
+C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\PagedList.Mvc.xml
+C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\zh-Hant\EntityFramework.SqlServer.resources.dll

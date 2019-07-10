@@ -1,28 +1,83 @@
 ﻿$(function () {
-    $('.thumbnail').hover(function () {
-        $(this).css("border-style", "outset");
-        $(this).css("border-color", "blue");
-    }, function () {
-        $(this).css("background-color", "#fff");
-        $(this).css("border", "1px solid #ddd");
-    });
-    $('#ShoppingCar a').css("color", "yellow");
-    if ($('#shoppingcartable tr').length > 1) {
-        $('#OrderShoppingCar').attr('disabled', false);
-    } else {
-        $('#OrderShoppingCar').attr('disabled', true);
-    }
+    //ajax測試網址
+    //本機VS環境http://localhost:59731
+    //本機IIS環境http://218.161.70.68
+    //實際網路環境http://rwenshop.wenyinghan.nctu.me
+    var apiurl = "http://rwenshop.wenyinghan.nctu.me/api/Ajax/";
+    //網頁基本前端設定
+    Webformat();
+    //管理者用ajax方法修改商品
+    PostEditProductForm();
+    //點擊購物車展示頂部購物車
+    ClinkShoppingCarBtnShowTopShoppingCar();
+    //從頁面改變購物車數量
+    ChageShoppingCarfQty();
+    //固定每個商品圖片大小
+    FormatImg();
+    //管理者新增產品種類
+    AdminnewProductKind();
+    //管理者修改訂單狀態(待出貨,已出貨,已送達,完成付款)
+    AdminEdintProductStatus();
+    //ajax DELETE網頁頁面購物車
+    DeleteShoppingCarbyView();
+    //ajax POST新增某項商品到購物車
+    AddProducInShoppingCar();
+    //ajax POST管理者刪除某項商品
+    DeleteProduct();
+    ///////////////////////////////////////////////////////////////
+    ////以下是方法本體，以上是方法調用////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    //管理者用ajax方法修改商品
+    function PostEditProductForm() {
+        $('.PostEditProductForm').ajaxForm(function (data) {
+            if (data == 1) {
+                alert("修改成功");
 
-    $("#ShoppingCar").off("click").on("click", function () {
-        if ($("#TempCar").css("display") == "none") {
-            $(this).css("background-color", "#999999");
-            LoadShoppingCar();
-            $('#TempCar').slideDown();
+                $('.onlyStock').each(function () {
+                    if ($(this).children('input').val() != 0) {
+                        $(this).css('color', 'black');
+                        $(this).children('input').css('color', 'black');
+                    } else {
+                        $(this).css('color', 'red');
+                        $(this).children('input').css('color', 'red');
+                    }
+                })
+            } else {
+                alert("修改失敗");
+            }
+        });
+    }
+    //網頁基本前端設定
+    function Webformat() {         
+        //滑入滑出商品會有邊框變化
+        $('.thumbnail').hover(function () {
+            $(this).css("border-style", "outset");
+            $(this).css("border-color", "blue");
+        }, function () {
+            $(this).css("background-color", "#fff");
+            $(this).css("border", "1px solid #ddd");
+        });
+        //購物車字體顏色黃
+        $('#ShoppingCar a').css("color", "yellow");
+        if ($('#shoppingcartable tr').length > 1) {
+            $('#OrderShoppingCar').attr('disabled', false);
         } else {
-            $(this).css("background-color", "rgb(34, 34, 34)");
-            $('#TempCar').slideUp();
-        };
-    });
+            $('#OrderShoppingCar').attr('disabled', true);
+        }
+    }
+    //點擊購物車展示頂部購物車
+    function ClinkShoppingCarBtnShowTopShoppingCar() {
+        $("#ShoppingCar").off("click").on("click", function () {
+            if ($("#TempCar").css("display") == "none") {
+                $(this).css("background-color", "#999999");
+                LoadShoppingCar();
+                $('#TempCar').slideDown();
+            } else {
+                $(this).css("background-color", "rgb(34, 34, 34)");
+                $('#TempCar').slideUp();
+            };
+        });
+    }
     //從頁面改變購物車數量
     function ChageShoppingCarfQty() {
         $(".ChageShoppingCarfQty").change(function () {
@@ -50,9 +105,7 @@
         });
 
     };
-
-    ChageShoppingCarfQty();
-    //從頂部改變購物車數量
+    //從頂部小購物車改變購物車數量
     function TopChageShoppingCarfQty() {
         $(".TopChageShoppingCarfQty").change(function () {
             var fUserId = $('#Member_head').attr("name");
@@ -80,12 +133,8 @@
         });
 
     };
-    //localhost:59731
-    //http://218.161.70.68
-    var apiurl = "http://rwenshop.wenyinghan.nctu.me/api/Ajax/";
-
+    //固定每個商品圖片大小
     function FormatImg() {
-        
         $("img").each(function () {
             if (this.width < this.height) {
                 $(this).height(245);
@@ -100,13 +149,10 @@
                 $(this).css('margin-top', Math.floor(((245 - heigh) / 2)) + 'px');
                 $(this).css('margin-bottom', Math.ceil(((245 - heigh) / 2)) + 'px');
             }
-           
+
         });
-
-
         var thumbnail_height = $(".thumbnail:first").height();
         $(".thumbnail").height(thumbnail_height);
-
         if ($("#preview_progressbarTW_img").width() < $("#preview_progressbarTW_img").height()) {
             $("#preview_progressbarTW_img").height(245);
             $("#preview_progressbarTW_img").width("auto");
@@ -127,36 +173,49 @@
 
 
     }
-    FormatImg();
-    $("input[name='fImg']").change(function () {
-        //當檔案改變後，做一些事 
-        readURL(this);   // this代表<input id="imgInp">
-    });
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $(input).parent("p").parent(".caption").prev("img").attr('src', e.target.result);
-                $('#preview_progressbarTW_img').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-            reader.onloadend = function (e) {
-                FormatImg();
+    //限制input只能打數字
+    function isNull(str) {
+        if (str == "") return true;
+        var regu = "^[ ]+$";
+        var re = new RegExp(regu);
+        return re.test(str);
+    };
+    //管理者新增產品種類
+    function AdminnewProductKind() {
+        $('#newfKind_btn').off("click").on("click", function () {
+            if (isNull($('#newfKind').val()) == false) { $('#fKind').append('<option value=' + $('#newfKind').val().replace(/\s+/g, "") + '>' + $('#newfKind').val().replace(/\s+/g, "") + '</option>'); }
+            $('#fKind option[value=' + $('#newfKind').val().replace(/\s+/g, "") + ']').attr('selected', 'selected');
+        })
+        //新增商品圖案時能馬上預覽
+        $("input[name='fImg']").change(function () {
+            //當檔案改變後，做一些事 
+            readURL(this);
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $(input).parent("p").parent().parent().prev("img").attr('src', e.target.result);
+                    $('#preview_progressbarTW_img').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+                reader.onloadend = function (e) {
+                    FormatImg();
+                }
             }
         }
     }
-    function EditProduct() {
-        $('.btnEditProduct').off("click").on("click", function () {
+    //管理者修改訂單狀態(待出貨,已出貨,已送達,完成付款)
+    function AdminEdintProductStatus() {
+        $('.OrderStatusEdit').off("click").on("click", function () {
             var r = confirm("確定要修改嗎?");
             if (r == true) {
-                var stock, fName, fPrice, fPId;
-                stock = $(this).siblings().children("#stock").val();
-                fName = $(this).siblings().children("#fName").val();
-                fPrice = $(this).siblings().children("#fPrice").val();
-                fPId = $(this).siblings("#fPId").attr("name");
-                var data = "?fPId=" + fPId + "&stock=" + stock + "&fName=" + fName + "&fPrice=" + fPrice;
+                var fOrderGuid, fStatus;
+                fOrderGuid = $(this).parent().siblings('.fOrderGuid').attr('id');
+                fStatus = $(this).siblings('select').val();
+                var data = "?fOrderGuid=" + fOrderGuid + "&fStatus=" + fStatus;
                 $.ajax({
-                    url: apiurl + "PutProduct" + encodeURI(data),
+                    url: apiurl + "PutEditProductStatus" + encodeURI(data),
                     type: 'PUT',
                     cache: false,
                     contentType: false,
@@ -170,83 +229,15 @@
                     }
                 });
             }
-        })
+        });
     }
-    EditProduct();
-    function isNull(str) {
-        if (str == "") return true;
-        var regu = "^[ ]+$";
-        var re = new RegExp(regu);
-        return re.test(str);
-    }
-    $('#newfKind_btn').off("click").on("click", function () {
-        if (isNull($('#newfKind').val()) == false) { $('#fKind').append('<option value=' + $('#newfKind').val().replace(/\s+/g, "") + '>' + $('#newfKind').val().replace(/\s+/g, "") + '</option>'); }
-        $('#fKind option[value=' + $('#newfKind').val().replace(/\s+/g, "") + ']').attr('selected', 'selected');
-    })
-    function LoadData(Orderby, Purview) {
-        $.ajax({
-            url: apiurl + Orderby,
-            type: 'GET',
-            success: function (data) {
-                if (Purview == 'Admin') {
-                    $('#rowShow').empty();
-                    for (var i = 0; i < data.length; i++) {
-                        $('#rowShow').append(
-                            '<div class="col-lg-4">' +
-                            '<div class="thumbnail">' +
-                            '<img src="/images/' + data[i].fImg + '" style="width:70%" id="' + data[i].fPId + '">' +
-                            '<div class="caption">' +
-                            '<p>上傳產品照片：<input type="file" name="fImg" id="fImg" accept="image/gif, image/jpeg, image/png" /></p>' +
-                            '<p id = "fPId" name = "' + data[i].fPId + '" >' + ' 編號：' + data[i].fPId + '</p >' +
-                            '<p>種類：' + data[i].fKind + '</p>' +
-                            '<h2><input type="text" value="' + data[i].fName + '" id="fName" name="fPrice"></h2>' +
-                            '<p>單價：<input type="text" value="' + data[i].fPrice + '" id="fPrice" name="fPrice"></p>' +
-                            '<p>庫存：<input type="text" value="' + data[i].stock + '" id="stock" name="stock"></p>' +
-                            '<p>銷量：' + data[i].fSales + '</p>' +
-                            '<p>上架日期：' + data[i].fDate + '</p>' +
-                            '<p><div class="btn btn-primary btnEditProduct">修改產品</div></p>' +
-                            '<p><div class="btn btn-primary btnDeleteProduct">刪除產品</div></p>' +
-                            '</div ></div ></div >'
-                        )
-                    }
-                }
-                FormatImg();
-                DeleteProduct();
-                EditProduct();
-            }
-        })
-    }
-
-    $('.OrderStatusEdit').off("click").on("click", function () {
-        var r = confirm("確定要修改嗎?");
-        if (r == true) {
-            var fOrderGuid, fStatus;
-            fOrderGuid = $(this).parent().siblings('.fOrderGuid').attr('id');
-            fStatus = $(this).siblings('select').val();
-            var data = "?fOrderGuid=" + fOrderGuid + "&fStatus=" + fStatus;
-            $.ajax({
-                url: apiurl + "PutEditProductStatus" + encodeURI(data),
-                type: 'PUT',
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (result) {
-                    if (result != 0) {
-                        alert("修改成功");
-                    } else {
-                        alert("修改失敗");
-                    }
-                }
-            });
-        }
-    });
-
+    //ajax get載入網頁頂部購物車
     function LoadShoppingCar() {
         var fUserId = $('#Member_head').attr("name");
         var data = "?fUserId=" + fUserId;
         $.ajax({
-            url: apiurl + "GetShowShoppingCar" + encodeURI(data),
-            type: 'GET',
+            url: apiurl + "PostShowShoppingCar" + encodeURI(data),
+            type: 'POST',
             cache: false,
             contentType: false,
             processData: false,
@@ -275,6 +266,7 @@
             }
         });
     }
+    //ajax DELETE網頁頂部購物車
     function DeleteShoppingCar() {
         $('.deleteShoppingCar').off("click").on("click", function () {
             var thisItem = $(this).parent().parent('tr');
@@ -304,7 +296,7 @@
         })
 
     }
-
+    //ajax DELETE網頁頁面購物車
     function DeleteShoppingCarbyView() {
         $('.deleteShoppingCarbyView').off("click").on("click", function () {
             var thisItem = $(this).parent().parent('tr');
@@ -335,17 +327,13 @@
         });
 
     }
-    DeleteShoppingCarbyView();
-
-
-
-
+    //ajax GET載入網頁頁面購物車
     function LoadShoppingCarbyView() {
         var fUserId = $('#Member_head').attr("name");
         var data = "?fUserId=" + fUserId;
         $.ajax({
-            url: apiurl + "GetShowShoppingCar" + encodeURI(data),
-            type: 'GET',
+            url: apiurl + "PostShowShoppingCar" + encodeURI(data),
+            type: 'POST',
             cache: false,
             contentType: false,
             processData: false,
@@ -377,41 +365,46 @@
             }
         });
     }
-
-
-
-
-
-
-
-    $('.btnAddCar').off("click").on("click", function () {
-        var fUserId, fPId;
-        fUserId = $('#Member_head').attr("name");
-        fPId = $(this).siblings("h2").attr("id");
-        var data = "?fPId=" + fPId + "&fUserId=" + fUserId;
-        $.ajax({
-            url: apiurl + "PostAddCar" + encodeURI(data),
-            type: 'POST',
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (result) {
-
-                if (result != 0) {
-                    alert("加入成功");
-                    LoadShoppingCar();
-                } else {
-                    alert("單一商品購買數量上限為20個");
+    //ajax POST新增某項商品到購物車
+    function AddProducInShoppingCar() {
+        $('.btnAddCar').off("click").on("click", function () {
+            var fUserId, fPId;
+            fUserId = $('#Member_head').attr("name");
+            fPId = $(this).siblings("h2").attr("id");
+            var data = "?fPId=" + fPId + "&fUserId=" + fUserId;
+            $.ajax({
+                url: apiurl + "PostAddCar" + encodeURI(data),
+                type: 'POST',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (result) {
+                    if (result != 0) {
+                        alert("加入成功");
+                        LoadShoppingCar();
+                    } else {
+                        alert("單一商品購買數量上限為20個");
+                    }
                 }
-            }
+            });
         });
-    });
+        //如果購物車沒東西就不能下單
+        $('.onlyStock').each(function () {
+            if ($(this).attr('name') == "0") {
+                $(this).css('color', 'red');
+                $(this).siblings('.btnAddCar').attr('disabled', true);
+                $(this).siblings('.btnAddCar').off('click');
+            }
+        })
+    }
+    //ajax POST管理者刪除某項商品
     function DeleteProduct() {
         $('.btnDeleteProduct').off("click").on("click", function () {
             var r = confirm("確定要刪除嗎?");
             if (r == true) {
                 var fPId;
-                fPId = $(this).siblings("#fPId").attr("name");
+                thisItem = $(this).parent().parent().parent().parent(".col-lg-4");
+                fPId = $(this).siblings("#fPId").children("input").attr("id");
                 var data = "?fPId=" + fPId;
                 $.ajax({
                     url: apiurl + "DeleteProduct" + encodeURI(data),
@@ -422,7 +415,8 @@
                     success: function (result) {
                         if (result != 0) {
                             alert("刪除成功");
-                            LoadData('GetProductBySales', 'Admin');
+                            thisItem.remove();
+
                         } else {
                             alert("刪除失敗");
                         }
@@ -431,15 +425,4 @@
             }
         })
     }
-    DeleteProduct();
-
-
-
-
-
-
-
-
-
-
 });

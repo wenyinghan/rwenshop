@@ -88,9 +88,9 @@ C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\zh-Hant\S
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.csproj.CopyComplete
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.dll
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.pdb
-C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.csprojAssemblyReference.cache
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\PagedList.dll
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\PagedList.Mvc.dll
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\PagedList.xml
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\PagedList.Mvc.xml
 C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\j7pl1\source\repos\slnjShoppingCarAjax\prjShoppingCarAjax\obj\Debug\prjShoppingCarAjax.csprojAssemblyReference.cache
