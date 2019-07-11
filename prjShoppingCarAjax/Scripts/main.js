@@ -3,7 +3,7 @@
     //本機VS環境http://localhost:59731
     //本機IIS環境http://218.161.70.68
     //實際網路環境http://rwenshop.wenyinghan.nctu.me
-    var apiurl = "http://rwenshop.wenyinghan.nctu.me/api/Ajax/";
+    var apiurl = "https://rwenshop.wenyinghan.nctu.me/api/Ajax/";
     //網頁基本前端設定
     Webformat();
     //管理者用ajax方法修改商品
