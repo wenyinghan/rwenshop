@@ -13,7 +13,8 @@ namespace prjShoppingCarAjax.Models
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    using PagedList;
+    using PagedList.Mvc;
     public partial class tOrder
     {
         public int fId { get; set; }

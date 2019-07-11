@@ -5,68 +5,65 @@
     int alltotal = 0;
 }
 
-<h2>訂單明細</h2>
+<h2>訂單編號：@Html.DisplayFor(modelItem => modelItem.FirstOrDefault().fOrderGuid)</h2>
+<div class="scroll">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fPId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fQty)
+            </th>
+            <th>
+                總價
+            </th>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.fOrderGuid)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fUserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fPId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fPrice)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fQty)
-        </th>
-        <th>
-           總價
-        </th>
-      
-    </tr>
+        </tr>
 
-    @foreach (var item in Model)
-    {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.fOrderGuid)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.fUserId)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.fPId)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.fName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.fPrice)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.fQty)
-    </td>
-    <td>
-        @{
-            int Qty = int.Parse(Html.DisplayFor(modelItem => item.fQty).ToString());
-            int Price = int.Parse(Html.DisplayFor(modelItem => item.fPrice).ToString());
-            string total = (Qty * Price).ToString();
-            alltotal += (Qty * Price);
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fUserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fPId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fQty)
+                </td>
+                <td>
+                    @{
+                        int Qty = int.Parse(Html.DisplayFor(modelItem => item.fQty).ToString());
+                        int Price = int.Parse(Html.DisplayFor(modelItem => item.fPrice).ToString());
+                        string total = (Qty * Price).ToString();
+                        alltotal += (Qty * Price);
+                    }
+                    @total
+                </td>
+
+            </tr>
         }
-        @total
-    </td>
 
-</tr>
-    }
+    </table>
 
-</table>
+</div>
+
 <h2>總金額：@alltotal.ToString()</h2>
 

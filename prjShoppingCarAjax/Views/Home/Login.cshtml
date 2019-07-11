@@ -5,7 +5,7 @@
 
 <h2>會員登入</h2>
 
-<form action="@Url.Action("Login")" method="post">
+<form action="@Url.Action("Login",new { page=Session["NowPage"]})" method="post">
     <div class="form-horizontal">
         <hr />
         <div class="form-group">

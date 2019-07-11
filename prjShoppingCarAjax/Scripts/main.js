@@ -48,13 +48,16 @@
         });
     }
     //網頁基本前端設定
-    function Webformat() {         
+    function Webformat() {
+       
+        $('.thumbnail').css("background-color", "rgb(255, 255, 255,0.9)");
         //滑入滑出商品會有邊框變化
         $('.thumbnail').hover(function () {
             $(this).css("border-style", "outset");
-            $(this).css("border-color", "blue");
+            $(this).css("background-color", "rgb(255, 255, 255)");
+           
         }, function () {
-            $(this).css("background-color", "#fff");
+                $(this).css("background-color", "rgb(255, 255, 255,0.9)");
             $(this).css("border", "1px solid #ddd");
         });
         //購物車字體顏色黃
@@ -244,12 +247,13 @@
             success: function (data) {
                 $('#TempCar table').empty();
                 var total = 0;
+                $('#TempCar table').append('<tr><th>產品</th><th>單價</th><th>數量</th><th>總價</th></tr>')
                 for (var i = 0; i < data.length; i++) {
                     $('#TempCar table').append(
-                        '<tr id="fPId" name="' + data[i].fPId + '"><td id="fName" name="' + data[i].fName + '">產品:' + data[i].fName +
-                        '</td ><td id="fPrice" name="' + data[i].fPrice + '">單價:' + data[i].fPrice +
-                        '</td ><td id="fQty" name="' + data[i].fQty + '">數量:' + '<input min="1" max="20" step="1" class="TopChageShoppingCarfQty" type="number" value="' + data[i].fQty + '">' +
-                        '</td ><td>總價:' + data[i].fQty * data[i].fPrice +
+                        '<tr id="fPId" name="' + data[i].fPId + '"><td id="fName" name="' + data[i].fName + '">' + data[i].fName +
+                        '</td ><td id="fPrice" name="' + data[i].fPrice + '">' + data[i].fPrice +
+                        '</td ><td id="fQty" name="' + data[i].fQty + '">' + '<input min="1" max="20" step="1" class="TopChageShoppingCarfQty" type="number" value="' + data[i].fQty + '">' +
+                        '</td ><td>' + data[i].fQty * data[i].fPrice +
                         '</td><td><div class="btn btn-primary deleteShoppingCar">刪除購物車</div></td>' +
                         "</tr > "
                     )
@@ -263,6 +267,9 @@
                 } else {
                     $('#OrderShoppingCar').attr('disabled', true);
                 }
+                $('.deleteShoppingCar').parent('td').width(110);
+                $('#TempCar table tr td').css('white-space', 'nowrap');
+               
             }
         });
     }

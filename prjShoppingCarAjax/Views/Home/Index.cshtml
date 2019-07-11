@@ -5,6 +5,10 @@
 
 @{
     ViewBag.Title = "產品列表";
+    
+        var mypage = Request.Params["page"];
+        Session["NowPage"] =mypage==null?1:int.Parse(mypage.ToString());
+   
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
@@ -83,20 +87,20 @@
             }
         }
     </select>
-    @if (Session["Keyword"].ToString() != null)
+    @if (Session["Keyword"].ToString() != "")
     {
         <input maxlength="20" type="text" name="keyword" value="@Session["Keyword"].ToString()" />
     }
     else
     {
-        <input maxlength="20" type="text" name="keyword" value="" />
+        <input maxlength="20" type="text" name="keyword" placeholder="商品關鍵字" />
     }
 
     <input type="submit" value="送出查詢" />
 </form>
 @Html.PagedListPager(Model, page => Url.Action("Index", new { page, orderby = Session["Orderby"].ToString(), productkind = Session["Productkind"].ToString(), Keyword = Session["Keyword"].ToString() }))
 <div class="row" id="rowShow">
-    @if (Model.Count()==0)
+    @if (Model.Count() == 0)
     {
         <h2 style="color:red;">查無商品</h2>
     }
@@ -119,19 +123,19 @@
                     }
                     else if (Session["Admin"] != null)
                     {
-                <form class="PostEditProductForm" action="@Url.Action("PostEditProduct")" method="post">
-                    <p>上傳產品照片：<input type="file" name="fImg" accept="image/gif, image/jpeg, image/png" /></p>
-                    <h2><input maxlength="20" type="text" value="@item.fName" id="@item.fName" name="fName"></h2>
-                    <p>種類：@item.fKind</p>
-                    <p id="fPId">編號： <input id="@item.fPId" name="fPId" value="@item.fPId" readonly="readonly" /></p>
-                    <p>單價：<input maxlength="9" type="text" value="@item.fPrice" id="@item.fPrice" name="fPrice"></p>
-                    <p class="onlyStock" name="@item.stock">庫存：<input maxlength="9" type="text" value="@item.stock" id="@item.stock" name="stock"></p>
-                    <p>銷量：@item.fSales</p>
-                    <p>上架日期：@item.fDate.ToString().Replace(" 上午 12:00:00", "")</p>
-                    <p><input type="submit" value="修改產品" class="btn btn-primary" /></p>
-                    <p><div class="btn btn-primary btnDeleteProduct">刪除產品</div></p>
-                </form>
-                        
+                        <form class="PostEditProductForm" action="@Url.Action("PostEditProduct")" method="post">
+                            <p>上傳產品照片：<input type="file" name="fImg" accept="image/gif, image/jpeg, image/png" /></p>
+                            <h2><input maxlength="20" type="text" value="@item.fName" id="@item.fName" name="fName"></h2>
+                            <p>種類：@item.fKind</p>
+                            <p id="fPId">編號： <input id="@item.fPId" name="fPId" value="@item.fPId" readonly="readonly" /></p>
+                            <p>單價：<input maxlength="9" type="text" value="@item.fPrice" id="@item.fPrice" name="fPrice"></p>
+                            <p class="onlyStock" name="@item.stock">庫存：<input maxlength="9" type="text" value="@item.stock" id="@item.stock" name="stock"></p>
+                            <p>銷量：@item.fSales</p>
+                            <p>上架日期：@item.fDate.ToString().Replace(" 上午 12:00:00", "")</p>
+                            <p><input type="submit" value="修改產品" class="btn btn-primary" /></p>
+                            <p><div class="btn btn-primary btnDeleteProduct">刪除產品</div></p>
+                        </form>
+
                     }
                     else
                     {
@@ -141,6 +145,7 @@
                         <p class="onlyStock" name="@item.stock">庫存：@item.stock</p>
                         <p>銷量：@item.fSales</p>
                         <p>上架日期：@item.fDate.ToString().Replace(" 上午 12:00:00", "")</p>
+                        <p><input type="button" class="btn btn-primary" value="加入購物車" onclick="location.href = 'Home/Login';"></p>
                     }
                 </div>
             </div>

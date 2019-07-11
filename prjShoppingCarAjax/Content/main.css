@@ -1,0 +1,38 @@
+﻿.bg {
+    background-image: url(../images/gif.gif);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+}
+.footer {
+    background-color: rgb(255, 255, 255,0.9);
+    border-radius: 5px;
+}
+th {
+    white-space: nowrap;
+}
+.scroll {
+    margin: 0 auto;
+    overflow-x: auto;
+}
+#TempCar {
+    padding: 10px;
+    margin-bottom:20px;
+    max-height:200px;
+    overflow:auto;
+    border-radius: 10px; 
+    background-color:#999999;
+    display:none;
+}
+.deleteShoppingCar{
+    margin-bottom:5px;
+}
+#TempCar table tr td{
+    overflow:hidden;
+}
+.thumbnail .caption h2 {
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}

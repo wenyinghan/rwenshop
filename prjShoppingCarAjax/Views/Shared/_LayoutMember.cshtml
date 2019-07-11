@@ -7,6 +7,7 @@
     <title>@ViewBag.Title - ㄚ溫本舖</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/main.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -15,7 +16,7 @@
 
     <script src="~/Scripts/main.js"></script>
 </head>
-<body style="font-family:Microsoft JhengHei;">
+<body style="font-family:Microsoft JhengHei;" class="bg">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -35,8 +36,8 @@
                     <li><a href="#">@Session["WelCome"]</a></li>
                 </ul>
             </div>
-            <div style="margin-bottom:20px;max-height:200px;overflow:auto; border-radius: 10px; background-color:#999999;display:none;" id="TempCar">
-               
+            <div id="TempCar" class="scroll">
+
                 <table class="table"></table>
                 <p style="margin-left:10px;margin-bottom:10px;font-size:20px;" id="temptotal"></p>
                 <p><a style="margin-left:10px; margin-bottom:10px;" href="@Url.Action("ShoppingCar")" class="btn btn-info">結帳去</a></p>
@@ -45,13 +46,26 @@
         </div>
     </div>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - ㄚ溫本舖</p>
-        </footer>
-    </div>
+    @if (ViewContext.RouteData.Values["action"].ToString() == "Index")
+    {
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer class="footer">
+                <p>&copy; @DateTime.Now.Year - ㄚ溫本舖</p>
+            </footer>
+        </div>
+    }
+    else
+    {
+        <div class="container body-content footer">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - ㄚ溫本舖</p>
+            </footer>
+        </div>
+    }
 
 </body>
 </html>

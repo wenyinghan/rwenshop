@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - ㄚ溫本舖</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/main.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -16,7 +17,7 @@
 
     <script src="~/Scripts/main.js"></script>
 </head>
-<body style="font-family:Microsoft JhengHei;">
+<body style="font-family:Microsoft JhengHei;" class="bg">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -38,15 +39,26 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - ㄚ溫本舖</p>
-        </footer>
-    </div>
-
-
+    @if (ViewContext.RouteData.Values["action"].ToString() == "Index")
+    {
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer class="footer">
+                <p>&copy; @DateTime.Now.Year - ㄚ溫本舖</p>
+            </footer>
+        </div>
+    }
+    else
+    {
+        <div class="container body-content footer">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - ㄚ溫本舖</p>
+            </footer>
+        </div>
+    }
 
     <script src="~/Scripts/main.js"></script>
 </body>

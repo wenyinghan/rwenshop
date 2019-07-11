@@ -89,7 +89,7 @@ namespace prjShoppingCarAjax.Controllers
         }
         //Post: 登入方法
         [HttpPost]
-        public ActionResult Login(string fUserId, string fPwd)
+        public ActionResult Login(string fUserId, string fPwd,int page)
         {
             // 依照帳密找出會員
             var member = db.tMember
@@ -114,7 +114,7 @@ namespace prjShoppingCarAjax.Controllers
             }
             Session["WelCome"] = member.fName + " - 歡迎光臨";
             //回到首頁
-            return RedirectToAction("Index");
+            return RedirectToAction("Index",new { page = page });
         }
         //登出
         public ActionResult Logout()
@@ -127,7 +127,7 @@ namespace prjShoppingCarAjax.Controllers
         //管理者新增商品頁面
         public ActionResult CreateProduct()
         {
-            
+
             if (Session["Admin"] != null)
             {
                 List<tProduct> kind = db.tProduct
@@ -135,14 +135,14 @@ namespace prjShoppingCarAjax.Controllers
               .Select(g => g.FirstOrDefault())
               .ToList();
                 return View("CreateProduct", "_LayoutAdmin", kind);
-            }          
+            }
             return RedirectToAction("Index");
         }
         //管理者新增商品方法
         [HttpPost]
         public ActionResult CreateProduct(string fPId, string fName, string fPrice, HttpPostedFileBase fImg, string fKind, string stock)
         {
-           
+
             if (Session["Admin"] != null)
             {
                 var check = db.tProduct.Where(m => m.fPId == fPId).FirstOrDefault();
@@ -156,7 +156,7 @@ namespace prjShoppingCarAjax.Controllers
                     Session["ProductExisted"] = null;
                 }
                 string fileName = "";
-                string newfilename = "";
+                string newfilename = "nopic.jpg";
                 if (fImg != null)
                 {
 
@@ -173,6 +173,7 @@ namespace prjShoppingCarAjax.Controllers
 
                     }
                 }
+
                 var prduct = new tProduct
                 {
                     fPId = fPId,
@@ -187,40 +188,68 @@ namespace prjShoppingCarAjax.Controllers
                 db.tProduct.Add(prduct);
                 db.SaveChanges();
             }
-           
+
             return RedirectToAction("Index");
         }
         //查看訂單列表
-        public ActionResult OrderList()
+        public ActionResult OrderList(string orderbydate = "日期新到舊", string orderbystatus = "全部", string orderuserId = "", string orderId = "", int page = 1)
         {
+            int currentPage = page < 1 ? 1 : page;
+            Session["OrderbyDate"] = orderbydate;
+            Session["OrderbyStatus"] = orderbystatus;
+            Session["OrderuserId"] = orderuserId;
+            Session["OrderId"] = orderId;
+            var orders = db.tOrder.ToList();
+            if (orderbydate == "日期新到舊")
+            {
+                orders = orders.OrderByDescending(m => m.fDate).ToList();
+            }
+            else
+            {
+                orders = orders.OrderBy(m => m.fDate).ToList();
+            }
+            if (orderbystatus != "全部")
+            {
+                orders = orders.Where(m => m.fStatus.Contains(orderbystatus)).ToList();
+            }
+            if (orderuserId != "")
+            {
+                orders = orders.Where(m => m.fUserId.Contains(orderuserId)).ToList();
+            }
+            if (orderId != "")
+            {
+                orders = orders.Where(m => m.fOrderGuid.Contains(orderId)).ToList();
+            }
+
             //找出會員帳號並指定給fUserId
             if (Session["Admin"] != null)
             {
-                return View("OrderList", "_LayoutAdmin", db.tOrder.OrderByDescending(m => m.fDate).ToList());
+                var result_orders = orders.ToPagedList(currentPage, pageSize);
+                return View("OrderList", "_LayoutAdmin", result_orders);
             }
             if (Session["Member"] != null)
             {
                 string fUserId = (Session["Member"] as tMember).fUserId;
                 //找出目前會員的所有訂單主檔記錄並依照fDate進行遞增排序
                 //將查詢結果指定給orders
-                var orders = db.tOrder.Where(m => m.fUserId == fUserId)
-                    .OrderByDescending(m => m.fDate).ToList();
+                orders = orders.Where(m => m.fUserId == fUserId).ToList();
                 //目前會員的訂單主檔
                 //指定OrderList.cshtml套用_LayoutMember.cshtml，View使用orders模型
-                return View("OrderList", "_LayoutMember", orders);
+                var result_orders = orders.ToPagedList(currentPage, pageSize);
+                return View("OrderList", "_LayoutMember", result_orders);
             }
             return RedirectToAction("Index");
         }
         //查看訂單明細
         public ActionResult OrderDetail(string fOrderGuid)
         {
-            if(Session["Member"] != null)
+            if (Session["Member"] != null)
             {
                 var orderDetails = db.tOrderDetail
-                    .Where(m => m.fOrderGuid == fOrderGuid).ToList(); 
+                    .Where(m => m.fOrderGuid == fOrderGuid).ToList();
                 return View("OrderDetail", "_LayoutMember", orderDetails);
             }
-            if(Session["Admin"] != null)
+            if (Session["Admin"] != null)
             {
                 var orderDetails = db.tOrderDetail
                     .Where(m => m.fOrderGuid == fOrderGuid).ToList();
@@ -307,11 +336,13 @@ namespace prjShoppingCarAjax.Controllers
         [HttpPost]
         public ActionResult Register(tMember pMember)
         {
+            Session["Member"] = pMember;
+            Session["MemberUserId"] = pMember.fUserId;
             //若模型沒有通過驗證則顯示目前的View
             if (ModelState.IsValid == false)
             {
                 return View();
-            }   
+            }
             var member = db.tMember
                 .Where(m => m.fUserId == pMember.fUserId)
                 .FirstOrDefault();
@@ -348,8 +379,12 @@ namespace prjShoppingCarAjax.Controllers
                     //把舊的圖刪掉      
                     string new_path = System.Web.HttpContext.Current.Server.MapPath("~") + "\\images\\";
                     string productImgName = product.fImg;
-                    string FileName = new_path + productImgName;
-                    System.IO.File.Delete(FileName);
+                    if (productImgName != "nopic.jpg")
+                    {
+                        string FileName = new_path + productImgName;
+                        System.IO.File.Delete(FileName);
+                    }
+
                     //把新的圖存起來
                     string oldfileName = "";//舊圖檔名
                     string newfilename = "";//新圖名
@@ -368,6 +403,12 @@ namespace prjShoppingCarAjax.Controllers
                 product.fName = fName;
                 product.fPrice = int.Parse(fPrice);
                 product.stock = int.Parse(stock);
+                var orders = db.tOrderDetail.Where(m => m.fIsApproves == "否" && m.fPId == fPId);
+                foreach (var item in orders)
+                {
+                    item.fName = fName;
+                    item.fPrice = int.Parse(fPrice);
+                }
                 db.SaveChanges();
             }
             catch (Exception ex)
