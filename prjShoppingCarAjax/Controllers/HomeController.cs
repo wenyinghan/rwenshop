@@ -89,7 +89,7 @@ namespace prjShoppingCarAjax.Controllers
         }
         //Post: 登入方法
         [HttpPost]
-        public ActionResult Login(string fUserId, string fPwd,int page)
+        public ActionResult Login(string fUserId, string fPwd, int page = 1)
         {
             // 依照帳密找出會員
             var member = db.tMember
@@ -114,7 +114,7 @@ namespace prjShoppingCarAjax.Controllers
             }
             Session["WelCome"] = member.fName + " - 歡迎光臨";
             //回到首頁
-            return RedirectToAction("Index",new { page = page });
+            return RedirectToAction("Index", new { page = page });
         }
         //登出
         public ActionResult Logout()
@@ -334,27 +334,51 @@ namespace prjShoppingCarAjax.Controllers
         }
         //會員註冊方法
         [HttpPost]
-        public ActionResult Register(tMember pMember)
+        public ActionResult Register(string fUserId, string fName, string fEmail, string fPwd)
         {
+            if (fPwd == "")
+            {
+                fPwd = null;
+            }
+            var pMember = new tMember
+            {
+                fUserId = fUserId,
+                fName = fName,
+                fEmail = fEmail,
+                fPwd = fPwd
+            };
             Session["Member"] = pMember;
             Session["MemberUserId"] = pMember.fUserId;
             //若模型沒有通過驗證則顯示目前的View
-            if (ModelState.IsValid == false)
+            /*if (ModelState.IsValid == false)
             {
                 return View();
-            }
+            }*/
             var member = db.tMember
                 .Where(m => m.fUserId == pMember.fUserId)
                 .FirstOrDefault();
             //若member為null，表示會員未註冊
+           
+                
             if (member == null)
             {
                 //將會員記錄新增到tMember資料表
                 db.tMember.Add(pMember);
                 db.SaveChanges();
                 var real_member = db.tMember
-                .Where(m => m.fUserId == pMember.fUserId && m.fPwd == pMember.fPwd)
+                .Where(m => m.fUserId == pMember.fUserId)
                 .FirstOrDefault();
+                //使用Session變數記錄歡迎詞
+                Session["WelCome"] = real_member.fName + " - 歡迎光臨";
+                //使用Session變數記錄登入的會員物件
+                Session["Member"] = real_member;
+                return RedirectToAction("Index");
+            }
+            else if (member != null && member.fPwd == null && fPwd==null) //有此會員旦密碼為空
+            {
+                var real_member = db.tMember
+                 .Where(m => m.fUserId == pMember.fUserId)
+                 .FirstOrDefault();
                 //使用Session變數記錄歡迎詞
                 Session["WelCome"] = real_member.fName + " - 歡迎光臨";
                 //使用Session變數記錄登入的會員物件

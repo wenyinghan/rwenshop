@@ -23,7 +23,6 @@ namespace prjShoppingCarAjax.Models
         public string fUserId { get; set; }
 
         [DisplayName("密碼")]
-        [Required]
         public string fPwd { get; set; }
 
         [DisplayName("姓名")]

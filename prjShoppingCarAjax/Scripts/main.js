@@ -27,6 +27,9 @@
     ///////////////////////////////////////////////////////////////
     ////以下是方法本體，以上是方法調用////////////////////////////////
     ///////////////////////////////////////////////////////////////
+    
+    
+
     //管理者用ajax方法修改商品
     function PostEditProductForm() {
         $('.PostEditProductForm').ajaxForm(function (data) {
@@ -50,14 +53,14 @@
     //網頁基本前端設定
     function Webformat() {
        
-        $('.thumbnail').css("background-color", "rgb(255, 255, 255,0.9)");
+        $('.thumbnail').css("background-color", "rgba(255, 255, 255,0.9)");
         //滑入滑出商品會有邊框變化
         $('.thumbnail').hover(function () {
             $(this).css("border-style", "outset");
-            $(this).css("background-color", "rgb(255, 255, 255)");
+            $(this).css("background-color", "rgba(255, 255, 255)");
            
         }, function () {
-                $(this).css("background-color", "rgb(255, 255, 255,0.9)");
+                $(this).css("background-color", "rgba(255, 255, 255,0.9)");
             $(this).css("border", "1px solid #ddd");
         });
         //購物車字體顏色黃
@@ -76,7 +79,7 @@
                 LoadShoppingCar();
                 $('#TempCar').slideDown();
             } else {
-                $(this).css("background-color", "rgb(34, 34, 34)");
+                $(this).css("background-color", "rgba(34, 34, 34)");
                 $('#TempCar').slideUp();
             };
         });

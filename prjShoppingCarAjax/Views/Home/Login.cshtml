@@ -1,9 +1,11 @@
-﻿@{
+﻿<script>if (window.location.hash.indexOf("#www.facebook.com") != -1) window.close();</script>
+@{
     ViewBag.Title = "會員登入";
-    TempData["currentView"] = "Login";
 }
-
 <h2>會員登入</h2>
+
+<button id="FB_login" class="btn btn-large btn-primary" onclick="fb_login();">使用FB登入</button>
+
 
 <form action="@Url.Action("Login",new { page=Session["NowPage"]})" method="post">
     <div class="form-horizontal">

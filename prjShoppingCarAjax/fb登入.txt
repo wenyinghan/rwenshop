@@ -1,0 +1,30 @@
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '442140166626777',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v3.3'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+應用程式密鑰 2e3032cb65383169e2262764857a3a62
+應用程式編號 442140166626777
+access_token 442140166626777|2e3032cb65383169e2262764857a3a62
+隱私政策網址 https://www.privacypolicies.com/privacy/view/50115601daafe8cfd1463ff6c81502c8
+version v3.3
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v3.3&appId=442140166626777&autoLogAppEvents=1"></script>
