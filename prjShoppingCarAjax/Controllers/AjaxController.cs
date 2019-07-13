@@ -72,11 +72,17 @@ namespace prjShoppingCarAjax.Controllers
             return num;
         }
         //顯示某個用戶的購物車GET方法沒隱私
-      /* public List<tOrderDetail> GetShowShoppingCar(string fUserId)
-        {
-            var currentCars = db.tOrderDetail.Where(m => m.fUserId == fUserId && m.fIsApproves == "否").ToList();
-            return currentCars;
-        }*/
+        /* public List<tOrderDetail> GetShowShoppingCar(string fUserId)
+          {
+              var currentCars = db.tOrderDetail.Where(m => m.fUserId == fUserId && m.fIsApproves == "否").ToList();
+              return currentCars;
+          }*/
+        //顯示某個用戶的購物車GET方法沒隱私
+         public List<tProduct> GetAllProducts()
+          {
+              var products = db.tProduct.OrderByDescending(m=>m.fSales).ToList();
+              return products;
+          }
         //顯示某個用戶的購物車POST方法有隱私
         public List<tOrderDetail> PostShowShoppingCar(string fUserId)
         {
